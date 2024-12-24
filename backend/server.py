@@ -67,3 +67,6 @@ def login():
     except:
         response = {'status': 400, 'message': 'An Error has Occurred'}
         return jsonify(response)
+
+if __name__ == '__main__':
+    app.run()
