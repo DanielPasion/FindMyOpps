@@ -33,13 +33,18 @@ def login():
         browser = webdriver.Chrome(options=chrome_options, service=svc)
 
         #Accessing Instagram and Logging In
+        print("Starting: /login")
+
         browser.get("https://www.instagram.com/")
+        print("Opened Browser")
+
         username_input = WebDriverWait(browser, 6).until(
                 EC.presence_of_element_located((By.XPATH,'/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/article/div[2]/div[1]/div[2]/div/form/div[1]/div[1]/div/label/input'))
             )
         ActionChains(browser)\
             .send_keys_to_element(username_input, os.getenv('email'))\
             .perform()
+        print("Entered Email")
         
         password_input = WebDriverWait(browser, 6).until(
                 EC.presence_of_element_located((By.XPATH,'/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/article/div[2]/div[1]/div[2]/div/form/div[1]/div[2]/div/label/input'))
@@ -47,21 +52,23 @@ def login():
         ActionChains(browser)\
             .send_keys_to_element(password_input, os.getenv('password'))\
             .perform()
-        
+        print("Entered Password")
+
         login_button =  WebDriverWait(browser, 6).until(
                 EC.presence_of_element_located((By.XPATH,'/html/body/div[2]/div/div/div[2]/div/div/div[1]/div[1]/div/section/main/article/div[2]/div[1]/div[2]/div/form/div[1]/div[3]'))
             )
         ActionChains(browser)\
             .click(login_button)\
             .perform()
+        print("Pressed Login")
         
         time.sleep(5)
-        
         browser.get('https://www.instagram.com/web/search/topsearch/?query=find.my.opps')
 
         response_element = WebDriverWait(browser, 6).until(
             EC.presence_of_element_located((By.XPATH,"/html/body/pre"))
         )
+        print("Login Succesful!")
         response = json.loads(response_element.text)
         return response
     except Exception as error:
