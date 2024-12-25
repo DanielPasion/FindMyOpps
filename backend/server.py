@@ -34,7 +34,7 @@ def login():
         chrome_options = Options()
         chrome_options.add_experimental_option("detach", True)
         if os.getenv('app_env') == 'production':
-            svc = Service(ChromeDriverManager().install())
+            svc = webdriver.ChromeService(ChromeDriverManager().install())
             browser = webdriver.Chrome(options=chrome_options, service=svc)
         else:
             svc = webdriver.ChromeService(executable_path=binary_path)
