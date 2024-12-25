@@ -8,6 +8,10 @@ import requests
 import json
 from chromedriver_py import binary_path
 
+#Production Imports
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+
 from flask import Flask, jsonify
 
 import time
@@ -29,8 +33,12 @@ def login():
         #Scraper Settings
         chrome_options = Options()
         chrome_options.add_experimental_option("detach", True)
-        svc = webdriver.ChromeService(executable_path=binary_path)
-        browser = webdriver.Chrome(options=chrome_options, service=svc)
+        if os.getenv('app_env') == 'production':
+            svc = Service(ChromeDriverManager().install())
+            browser = webdriver.Chrome(options=chrome_options, service=svc)
+        else:
+            svc = webdriver.ChromeService(executable_path=binary_path)
+            browser = webdriver.Chrome(options=chrome_options, service=svc)
 
         #Accessing Instagram and Logging In
         print("Starting: /login")
