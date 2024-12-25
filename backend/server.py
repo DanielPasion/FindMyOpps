@@ -64,8 +64,8 @@ def login():
         )
         response = json.loads(response_element.text)
         return response
-    except:
-        response = {'status': 400, 'message': 'An Error has Occurred'}
+    except Exception as error:
+        response = {'status': 400, 'message': error}
         return jsonify(response)
 
 if __name__ == '__main__':
